@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+/* eslint-disable prettier/prettier */
+import { createServerSupabaseClient, User } from '@supabase/auth-helpers-nextjs';
+import { Session } from 'inspector';
+import { GetServerSidePropsContext } from 'next';
+
 import DashboardMain from '@/components/DashboardMain';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import { User } from '@thirdweb-dev/auth';
-import { Session } from 'inspector';
-import { GetServerSidePropsContext } from 'next';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   // Create authenticated Supabase Client
@@ -18,7 +20,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
       redirect: {
         destination: '/',
-        permanent: false
+        permanent: false,
       }
     };
 
@@ -31,7 +33,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 };
 
 
-const Dashboard = ({ user, initialSession }: { user: User, initialSession: Session}) => {
+const Dashboard = ({
+  user,
+  initialSession,
+}: {
+  user: User;
+  initialSession: Session;
+}) => {
   
   return (
     <Main

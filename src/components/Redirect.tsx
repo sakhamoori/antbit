@@ -1,19 +1,18 @@
-import { useRouter } from "next/router"
-import { useEffect } from "react"
-import { Url } from "url"
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 type RedirectProps = {
-  to: Url
-}
+  to: string;
+};
 
 function Redirect({ to }: RedirectProps) {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    router.push(to)
+    router.push(to);
   }, [to]);
 
   return null;
 }
 
-export default Redirect
+export default Redirect;

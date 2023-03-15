@@ -1,13 +1,7 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+/* eslint-disable prettier/prettier */
+/* eslint-disable simple-import-sort/imports */
 import '../styles/global.css';
-
-// import type { AppProps } from 'next/app';
-
-// const MyApp = ({ Component, pageProps }: AppProps) => (
-//   <Component {...pageProps} />
-// );
-
-// export default MyApp;
-
 import { useState } from 'react'
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'

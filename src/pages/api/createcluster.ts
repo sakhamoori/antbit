@@ -7,6 +7,8 @@ import { API_Password, API_UserName, BASE_URL } from '@/utils/constant';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const { data } = req.body;
+
     // Create authenticated Supabase Client
     const supabase = createServerSupabaseClient({ req, res });
     // Check if we have a session
@@ -18,26 +20,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       `${API_UserName}:${API_Password}`,
       'utf8'
     ).toString('base64');
-    const data = {
-      owner_email: session?.user.email,
-    };
-
     const headers = {
       Authorization: `Basic ${token}`,
-      'Content-Type': 'application/json',
       accept: 'application/json',
     };
 
-    console.log(`headers - ${JSON.stringify(headers)}`);
-    console.log(`BASE_URL -${BASE_URL}/get-all-workers`);
+    const input = {
+      owner_email: session?.user.email,
+      ...data,
+    };
 
-    const response = await Axios.post(`${BASE_URL}/get-all-workers`, data, {
+    console.log(`Input - ${JSON.stringify(input)}`);
+
+    const response = await Axios.post(`${BASE_URL}/create-new-cluster`, input, {
       headers,
     });
 
-    // console.log(`Response - ${JSON.stringify(response.data)}`);
+    console.log(`Hello World:001 - ${JSON.stringify(response)}`);
     return res.status(response.status).json(response.data);
   } catch (error) {
+    console.log(`Hello World - ${JSON.stringify(error)}`);
     res.setHeader('Allow', ['GET', 'POST']);
     res.status(405).end();
   }

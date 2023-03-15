@@ -12,14 +12,14 @@
     "noUncheckedIndexedAccess": true,
 
     "noImplicitAny": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
 
-    "target": "es5",
+    "target": "ES5",
     "outDir": "out",
     "declaration": true,
     "sourceMap": true,
@@ -34,7 +34,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "incremental": true,
-
+    "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],

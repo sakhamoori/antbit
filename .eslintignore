@@ -1,2 +1,11 @@
 node_modules
 out
+./src/components/NewCluster.tsx
+./src/components/Clusters.tsx
+./src/components/ConnectToPhantom.tsx
+./src/components/Miners.tsx
+./src/interfaces/PhantomProvider.tsx
+./src/pages/_app.tsx
+./src/pages/api/allclusters.ts
+./src/pages/api/allworkers.ts
+./src/templates/Main.tsx

@@ -1,1 +1,0 @@
-Antbit - Solona Hackathon

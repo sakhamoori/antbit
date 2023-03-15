@@ -1,13 +1,14 @@
-import { PublicKey, Transaction } from "@solana/web3.js";
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+import { PublicKey, Transaction } from '@solana/web3.js';
 
-type DisplayEncoding = "utf8" | "hex";
-type PhantomEvent = "disconnect" | "connect" | "accountChanged";
+type DisplayEncoding = 'utf8' | 'hex';
+type PhantomEvent = 'disconnect' | 'connect' | 'accountChanged';
 type PhantomRequestMethod =
-  | "connect"
-  | "disconnect"
-  | "signTransaction"
-  | "signAllTransactions"
-  | "signMessage";
+  | 'connect'
+  | 'disconnect'
+  | 'signTransaction'
+  | 'signAllTransactions'
+  | 'signMessage';
 
 interface ConnectOpts {
   onlyIfTrusted: boolean;

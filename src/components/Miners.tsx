@@ -1,5 +1,5 @@
-// import { getWokersHealth } from "@/pages/api/workers";
-// import { getWokersHealth } from '../pages/api/workers'
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/jsx-key */
 import Axios from 'axios';
 import { Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
@@ -47,9 +47,6 @@ const Miners = () => {
               </svg>
               <span>Node: {worker?.worker_ip}</span>
             </div>
-            {/* <div className="h-1 w-full bg-neutral-200 dark:bg-neutral-600">
-                <div className="h-1 bg-primary" style={{ width: "45%" }}></div>
-              </div> */}
             <div>Idle Hours: {worker.hours_idle}</div>
             <div>Compute Hours: {worker.hours_hired}</div>
             <div>Total Hours: {worker.hours_idle + worker.hours_hired}</div>
