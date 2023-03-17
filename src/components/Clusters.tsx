@@ -58,13 +58,14 @@ const Clusters = () => {
       <h2>
         <b>Limitless computing power on-demand</b>
       </h2>
-      <div className="flex flex-wrap gap-5">
+      <div className="mt-5 mb-5 flex flex-wrap">
         <div>
           <Button
             color="dark"
             onClick={() => {
               setDeployCluster(!deployCluster);
             }}
+            style={{ width: '150px' }}
           >
             DEPLOY A CLUSTER
           </Button>
@@ -73,7 +74,9 @@ const Clusters = () => {
           </Modal>
         </div>
         <div>
-          <Button color="gray">SEE DOCUMENTATION</Button>
+          <Button color="gray" style={{ width: '200px' }}>
+            SEE DOCUMENTATION
+          </Button>
         </div>
       </div>
       <div>
@@ -196,7 +199,9 @@ const Clusters = () => {
                       <Button
                         onClick={() => destroyCluster(cluster.cluster_id)}
                         disabled={cluster.status !== 'online'}
-                        color={cluster.status === 'online' ? 'dark' : 'light'}
+                        color={'dark'}
+                        style={{ width: '100px' }}
+                        className="flex justify-end"
                       >
                         Destroy
                       </Button>

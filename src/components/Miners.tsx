@@ -139,7 +139,7 @@ const Miners = () => {
                 <div className="grid grid-cols-2">
                   <div>Hired Unclaimed Earnings:</div>
                   <div className="flex justify-end">
-                    <Button color="light" size={'md'}>
+                    <Button color="dark" size={'md'} style={{ width: '150px' }}>
                       Claim {worker.rewards_unclaimed} xnt ~4$
                     </Button>
                   </div>

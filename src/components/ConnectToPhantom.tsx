@@ -104,7 +104,7 @@ const ConnectToPhantom = ({ onConnect, session }: ConnectToPhantomProps) => {
   return (
     <div className="flex flex-wrap items-center gap-2">
       {provider && !walletKey && (
-        <Button color="dark" onClick={connectWallet}>
+        <Button color="dark" onClick={connectWallet} style={{ width: '200px' }}>
           Connect Phantom Wallet
         </Button>
       )}
