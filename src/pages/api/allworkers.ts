@@ -28,9 +28,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       accept: 'application/json',
     };
 
-    console.log(`headers - ${JSON.stringify(headers)}`);
-    console.log(`BASE_URL -${BASE_URL}/get-all-workers`);
-
     const response = await Axios.post(`${BASE_URL}/get-all-workers`, data, {
       headers,
     });

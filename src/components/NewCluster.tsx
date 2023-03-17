@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-key */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -88,24 +89,24 @@ const NewCluster = () => {
           <>
             <div className="mb-3 flex">
               <div className="w-1/3">
-                <Label htmlFor="txt_count">Available Count</Label>
+                <Label htmlFor="txt_count"><b>Available Count</b></Label>
               </div>
               <div className="w-1/3">
-                <Label htmlFor="txt_count">Worker IP's</Label>
+                <Label htmlFor="txt_count"><b>Worker IP's</b></Label>
               </div>
-              <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:flex-grow">
-                <Label htmlFor="txt_count">Checked</Label>
+              <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:grow">
+                <Label htmlFor="txt_count"><b>Checked</b></Label>
               </div>
             </div>
             {clusterOffering.cpu_offer.map((cpu: AvailableNodes) => (
               <div className="mb-3 flex">
-                <div className="w-1/3">
-                  <Label htmlFor="txt_count">Available Count: {cpu.cpu_count}</Label>
+                <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:grow">
+                  <Label htmlFor="txt_count">{cpu.cpu_count}</Label>
                 </div>
                 <div className="w-1/3">
                   <Label>{cpu.worker_ip}</Label>
                 </div>
-                <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:flex-grow">
+                <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:grow">
                   <Checkbox className="border-black bg-white text-black focus:ring-black"
                     value={cpu.worker_ip}
                     onChange={(e) => handleCPUOnChange(e)}
@@ -113,7 +114,7 @@ const NewCluster = () => {
                 </div>
               </div>
             ))}
-            <div className="flex flex-row justify-end space-x-1 md:flex md:flex-grow">
+            <div className="flex flex-row justify-end space-x-1 md:flex md:grow">
               <Label>
                 CPU Offer: Price per hour - ${' '}
                 {clusterOffering?.cpu_offer_price_per_hour}

@@ -1,4 +1,5 @@
-import { Button } from "flowbite-react";
+/* eslint-disable import/no-extraneous-dependencies */
+import { Button } from 'flowbite-react';
 
 type ModalProps = {
   handleClose: any;

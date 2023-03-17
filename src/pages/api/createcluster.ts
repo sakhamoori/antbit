@@ -30,16 +30,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ...data,
     };
 
-    console.log(`Input - ${JSON.stringify(input)}`);
-
     const response = await Axios.post(`${BASE_URL}/create-new-cluster`, input, {
       headers,
     });
 
-    console.log(`Hello World:001 - ${JSON.stringify(response)}`);
     return res.status(response.status).json(response.data);
   } catch (error) {
-    console.log(`Hello World - ${JSON.stringify(error)}`);
     res.setHeader('Allow', ['GET', 'POST']);
     res.status(405).end();
   }
