@@ -55,18 +55,18 @@ const NewCluster = () => {
   };
 
   return (
-    <div key="new-cluster" className="border-2 border-sky-500">
+    <div key="new-cluster" className="border-2">
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nodes availble</h5>
       {!clusterOffering && <div>No Clusters available</div>}
       {clusterOffering && clusterOffering.gpu_offer.length > 0 && (
         <>
           {clusterOffering.gpu_offer.map((gpu: AvailableNodes) => (
-            <div className="mb-4 flex bg-gray-400">
+            <div className="mb-4 flex">
               <div className="w-1/2">
                 <Label htmlFor="txt_count">CPU Count: {gpu.cpu_count}</Label>
               </div>
               <div className="w-1/2">
-                <Label>{gpu.worker_ip}</Label>
+                <Label className='mr-5'>{gpu.worker_ip}</Label>
                 <Checkbox value={gpu.worker_ip} />
               </div>
             </div>
@@ -80,33 +80,51 @@ const NewCluster = () => {
           </div>
         </>
       )}
-      {clusterOffering && clusterOffering.cpu_offer.length > 0 && (
-        <>
-          {clusterOffering.cpu_offer.map((cpu: AvailableNodes) => (
-            <div className="mb-4 flex bg-gray-400">
-              <div className="w-1/2">
-                <Label htmlFor="txt_count">CPU Count: {cpu.cpu_count}</Label>
+      <div>
+        <div>
+          <h3 className="text-center text-lg">CPU Available</h3>
+        </div>
+        {clusterOffering && clusterOffering.cpu_offer.length > 0 && (
+          <>
+            <div className="mb-3 flex">
+              <div className="w-1/3">
+                <Label htmlFor="txt_count">Available Count</Label>
               </div>
-              <div className="w-1/2">
-                <Label>{cpu.worker_ip}</Label>
-                <Checkbox
-                  value={cpu.worker_ip}
-                  onChange={(e) => handleCPUOnChange(e)}
-                />
+              <div className="w-1/3">
+                <Label htmlFor="txt_count">Worker IP's</Label>
+              </div>
+              <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:flex-grow">
+                <Label htmlFor="txt_count">Checked</Label>
               </div>
             </div>
-          ))}
-          <div>
-            <Label>
-              CPU Offer: Price per hour - ${' '}
-              {clusterOffering?.cpu_offer_price_per_hour}
-            </Label>
-            <Button onClick={() => createCluster(checkedCPU && checkedCPU.length > 0 ? checkedCPU: [] )}>
-              Submit - CPU
-            </Button>
-          </div>
-        </>
-      )}
+            {clusterOffering.cpu_offer.map((cpu: AvailableNodes) => (
+              <div className="mb-3 flex">
+                <div className="w-1/3">
+                  <Label htmlFor="txt_count">Available Count: {cpu.cpu_count}</Label>
+                </div>
+                <div className="w-1/3">
+                  <Label>{cpu.worker_ip}</Label>
+                </div>
+                <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:flex-grow">
+                  <Checkbox className="border-black bg-white text-black focus:ring-black"
+                    value={cpu.worker_ip}
+                    onChange={(e) => handleCPUOnChange(e)}
+                  />
+                </div>
+              </div>
+            ))}
+            <div className="flex flex-row justify-end space-x-1 md:flex md:flex-grow">
+              <Label>
+                CPU Offer: Price per hour - ${' '}
+                {clusterOffering?.cpu_offer_price_per_hour}
+              </Label>
+              <Button onClick={() => createCluster(checkedCPU && checkedCPU.length > 0 ? checkedCPU: [] )} color="dark">
+                Submit - CPU
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
