@@ -21,7 +21,7 @@ const DashboardMain = ({ session }: DashboardMainProps) => {
   return (
     <div>
       <Tabs.Group aria-label="Default tabs" style="default">
-        <Tabs.Item active={true} title="Miner - Nodes">
+        <Tabs.Item active={true} title="Nodes">
           {publicKey === '' ? (
             <ConnectToPhantom session={session} onConnect={onConnect} />
           ) : (

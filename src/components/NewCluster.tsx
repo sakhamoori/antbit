@@ -56,6 +56,7 @@ const NewCluster = () => {
 
   return (
     <div key="new-cluster" className="border-2 border-sky-500">
+      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nodes availble</h5>
       {!clusterOffering && <div>No Clusters available</div>}
       {clusterOffering && clusterOffering.gpu_offer.length > 0 && (
         <>
