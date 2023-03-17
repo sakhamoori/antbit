@@ -82,11 +82,9 @@ const NewCluster = () => {
         </>
       )}
       <div>
-        <div>
-          <h3 className="text-center text-lg">CPU Available</h3>
-        </div>
         {clusterOffering && clusterOffering.cpu_offer.length > 0 && (
           <>
+            <h3 className="text-center text-lg">CPU Available</h3>
             <div className="mb-3 flex">
               <div className="w-1/3">
                 <Label htmlFor="txt_count"><b>Available Count</b></Label>
