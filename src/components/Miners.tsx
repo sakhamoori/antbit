@@ -38,8 +38,8 @@ const Miners = () => {
       return (
         <img
           src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/initiating.png?t=2023-03-18T00%3A44%3A48.006Z"
-          width="25px"
-          height="25px"
+          width="30px"
+          height="30px"
           title={status}
         />
       );
