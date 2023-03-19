@@ -113,7 +113,7 @@ const Clusters = () => {
             DEPLOY A CLUSTER
           </Button>
           <Modal show={deployCluster} handleClose={showHideDeployCluster}>
-            <NewCluster />
+            <NewCluster handleClose={showHideDeployCluster} />
           </Modal>
         </div>
         <div>
@@ -259,22 +259,6 @@ const Clusters = () => {
                 </div>
                 <div className="h-5 border-b-2 border-black text-center text-2xl"></div>
               </div>
-              // <div className="h-48 px-3">
-              //   <div>Idle Hours: {cluster.age_in_hours}</div>
-              //   <div>Compute Hours: {cluster.max_age_in_hours}</div>
-              //   <div>Total Hours: {cluster.max_age_in_hours}</div>
-              //   <div>Credit Paid: {cluster.credits_paid}</div>
-              //   <div>Status: {cluster.status}</div>
-              //   <div className={cluster.status !== 'online' ? 'w-3/12' : ''}>
-              //     <Button
-              //       onClick={() => destroyCluster(cluster.cluster_id)}
-              //       disabled={cluster.status !== 'online'}
-              //       color="dark"
-              //     >
-              //       Destroy
-              //     </Button>
-              //   </div>
-              // </div>
             ))}
         </div>
       </div>

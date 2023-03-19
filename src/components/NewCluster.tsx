@@ -18,7 +18,11 @@ type AvailableNodes = {
   worker_ip: string;
 };
 
-const NewCluster = () => {
+type NewClusterProps = {
+  handleClose: any
+}
+
+const NewCluster = ({ handleClose }: NewClusterProps) => {
   const [checkedCPU, setChekcedCPU] = useState<string[]>();
   const [clusterOffering, setClusterOffering] = useState<Offerings | undefined>(
     undefined
@@ -38,6 +42,7 @@ const NewCluster = () => {
         credits_paid: 100,
       },
     });
+    handleClose();
   };
 
   useEffect(() => {
