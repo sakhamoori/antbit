@@ -57,12 +57,12 @@ const NewCluster = () => {
 
   return (
     <div key="new-cluster" className="border-2">
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Workers availble</h5>
+      <h5 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Workers available</h5>
       {!clusterOffering && <div>All our nodes are currently hired by other engineers please try again later</div>}
       {clusterOffering && clusterOffering.gpu_offer.length > 0 && (
         <>
           {clusterOffering.gpu_offer.map((gpu: AvailableNodes) => (
-            <div className="mb-4 flex">
+            <div className="mb-4 flex justify-center text-center">
               <div className="w-1/2">
                 <Label htmlFor="txt_count">CPU Count: {gpu.cpu_count}</Label>
               </div>
@@ -84,8 +84,8 @@ const NewCluster = () => {
       <div>
         {clusterOffering && clusterOffering.cpu_offer.length > 0 && (
           <>
-            <h3 className="text-center text-lg">CPU Available</h3>
-            <div className="mb-3 flex">
+            <h3 className="text-center text-sm underline">CPU Available</h3>
+            <div className="mb-3 flex justify-center text-center">
               <div className="w-1/2">
                 <Label htmlFor="txt_count"><b>CPU Count</b></Label>
               </div>

@@ -45,7 +45,7 @@ const Dashboard = ({
     <Main
       meta={
         <Meta
-          title="Dashboard"
+          title="Antbit"
           description="Antbit - Dashboard"
         />
       } session={user}

@@ -19,6 +19,7 @@ type WorkerObj = {
   rewards_claimed: number;
   rewards_unclaimed: number;
   status: string;
+  cpu_count: number;
 };
 
 const Miners = () => {
@@ -93,7 +94,7 @@ const Miners = () => {
             <div className="space-y-2 divide-y divide-dotted divide-zinc-600 leading-10">
               <div className="grid grid-cols-2">
                 <div className="flex">
-                  Ideal Hours
+                  Idle Hours
                   <svg
                     width="20px"
                     height="20px"
@@ -174,6 +175,10 @@ const Miners = () => {
                 <div className="text-right">
                   {worker.hours_idle + worker.hours_hired} hrs
                 </div>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>Count</div>
+                <div className="text-right">{worker.cpu_count}</div>
               </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2">
