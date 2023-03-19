@@ -18,6 +18,8 @@ type WorkerObj = {
   hours_hired: number;
   rewards_claimed: number;
   rewards_unclaimed: number;
+  status: string;
+  cpu_count: number;
 };
 
 const Miners = () => {
@@ -31,6 +33,49 @@ const Miners = () => {
     });
   }, []);
 
+  const renderState = (status: string) => {
+    if (status === 'idle') {
+      return (
+        <img
+          src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/initiating.png?t=2023-03-18T00%3A44%3A48.006Z"
+          width="30px"
+          height="30px"
+          title={status}
+        />
+      );
+    }
+    if (status === 'hired') {
+      return (
+        <img
+          src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/online.png?t=2023-03-18T00%3A43%3A17.461Z"
+          width="25px"
+          height="25px"
+          title={status}
+        />
+      );
+    }
+    if (status === 'offline') {
+      return (
+        <img
+          src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/destroyed.png?t=2023-03-18T00%3A42%3A56.337Z"
+          width="25px"
+          height="25px"
+          title={status}
+        />
+      );
+    }
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.25 8.891l-1.421-1.409-6.105 6.218-3.078-2.937-1.396 1.436 4.5 4.319 7.5-7.627z" />
+      </svg>
+    );
+  };
+
   return (
     <div>
       <h5 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -43,13 +88,13 @@ const Miners = () => {
             style={{ maxWidth: '600px' }}
           >
             <div className="mb-3 flex">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAn5JREFUSEuNlouR2kAQRN9kQAbgCI6L4OwMIAJfBkAExhGAI7AvAnAE2BGYywAyIINx9e5I2pUEtqqgJNV8e3p6ZegywNNd/di+v2fQ+dR32V7/1kTvhRhmLSP0Eg9962ILV+XzqhvgFXgB5vGT/Tn/7Aj+s0zQT9Z20ANHjwtgB8zGYCzsL8AGOI4B1oMod2DO3mEVDlewPfivqFo2c5yPwBqYht0+ElXwqqN+gXuDVZq5scGRY0GEtog8RvO1ObvgyLdIWhKmQk2wHOLNc2A9SrNyVAZzhz8RdZlmEwZ9Fl0wpnjCNFc+0mKf1mEiuHYGF4cPhVvbgdjyHeNqziwgqkjVY8iEPKevxXsNfAq2xPyo3cod5HZ+AJ81KENDLik7YPrE4OSZukqwjRmkLoA3jNcuQR7X2bEnzJ/xxPPBYGPbVfkpcH+HxKZbQKKEmsUZQ3GqDhqxsGJRt0HZJkAKjjE3590V3LiVMpNFJ0VIDC0hygkMC4ct8CWY9CkGe4ptjsrt1q19W1YVp9xkrX4JkarVcj1FyxqV6NiHpdykBiLZ6D7V1VztkDNF05AnuJLYU1Sag/dg6bTT10ZaujdpWKhpAOUsHA4YF1w8bltuOlEh5UB7EpAKkq+kY4kxoKkc0qKZs/Fq0WwS+n5r9iPPqaLvGmOHc20EsuugNbUF+CEwK6Si2unBwz+kYqAHkohGSbU4ErB6LbqC7otdNFcOuWxZQ14FLNIWJf1dyrU5L46tMZ8FrWsl7RKMnmJKJrgUuNH7DvH6CJN2rf3+gXNPMkt22SIOGe2ELtE1H5khagNpibbGDpzHE62Y81AQm5wPvgla/+Gx/j9fIbL5C0t9GCyWvBRmAAAAAElFTkSuQmCC" />
+              {renderState(worker.status)}
               <span className="ml-2">Node: {worker?.worker_ip}</span>
             </div>
             <div className="space-y-2 divide-y divide-dotted divide-zinc-600 leading-10">
               <div className="grid grid-cols-2">
                 <div className="flex">
-                  Ideal Hours
+                  Idle Hours
                   <svg
                     width="20px"
                     height="20px"
@@ -131,6 +176,10 @@ const Miners = () => {
                   {worker.hours_idle + worker.hours_hired} hrs
                 </div>
               </div>
+              <div className="grid grid-cols-2">
+                <div>Count</div>
+                <div className="text-right">{worker.cpu_count}</div>
+              </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2">
                   <div>Claimed Earnings</div>
@@ -148,37 +197,6 @@ const Miners = () => {
             </div>
             <div className="h-5 border-b-2 border-black text-center text-2xl"></div>
           </div>
-          // <div className="relative mx-auto grid max-w-sm grid-cols-1 items-center py-5">
-          //   <div className="my-px space-y-1.5 divide-y divide-dotted divide-gray-600">
-          //     <div className="flex">
-          //       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAn5JREFUSEuNlouR2kAQRN9kQAbgCI6L4OwMIAJfBkAExhGAI7AvAnAE2BGYywAyIINx9e5I2pUEtqqgJNV8e3p6ZegywNNd/di+v2fQ+dR32V7/1kTvhRhmLSP0Eg9962ILV+XzqhvgFXgB5vGT/Tn/7Aj+s0zQT9Z20ANHjwtgB8zGYCzsL8AGOI4B1oMod2DO3mEVDlewPfivqFo2c5yPwBqYht0+ElXwqqN+gXuDVZq5scGRY0GEtog8RvO1ObvgyLdIWhKmQk2wHOLNc2A9SrNyVAZzhz8RdZlmEwZ9Fl0wpnjCNFc+0mKf1mEiuHYGF4cPhVvbgdjyHeNqziwgqkjVY8iEPKevxXsNfAq2xPyo3cod5HZ+AJ81KENDLik7YPrE4OSZukqwjRmkLoA3jNcuQR7X2bEnzJ/xxPPBYGPbVfkpcH+HxKZbQKKEmsUZQ3GqDhqxsGJRt0HZJkAKjjE3590V3LiVMpNFJ0VIDC0hygkMC4ct8CWY9CkGe4ptjsrt1q19W1YVp9xkrX4JkarVcj1FyxqV6NiHpdykBiLZ6D7V1VztkDNF05AnuJLYU1Sag/dg6bTT10ZaujdpWKhpAOUsHA4YF1w8bltuOlEh5UB7EpAKkq+kY4kxoKkc0qKZs/Fq0WwS+n5r9iPPqaLvGmOHc20EsuugNbUF+CEwK6Si2unBwz+kYqAHkohGSbU4ErB6LbqC7otdNFcOuWxZQ14FLNIWJf1dyrU5L46tMZ8FrWsl7RKMnmJKJrgUuNH7DvH6CJN2rf3+gXNPMkt22SIOGe2ELtE1H5khagNpibbGDpzHE62Y81AQm5wPvgla/+Gx/j9fIbL5C0t9GCyWvBRmAAAAAElFTkSuQmCC" />
-          //       <span>Node: {worker?.worker_ip}</span>
-          //     </div>
-          //     <div>
-          //       Idle Hours: {worker.hours_idle}
-          //     </div>
-          //     <div className="divide-dotted">Compute Hours: {worker.hours_hired}</div>
-          //     <div className="divide-dotted">Total Hours: {worker.hours_idle + worker.hours_hired}</div>
-          //     <div className="divide-dotted">Claimed Earnings: {worker.rewards_claimed} xnt</div>
-          //     <div className="flex flex-wrap gap-2 divide-dotted">
-          //       Idle Unclaimed Earnings:{' '}
-          //       <Button color="dark" size={'sm'}>
-          //         {worker.rewards_unclaimed} xnt
-          //       </Button>
-          //     </div>
-          //     <div className="flex flex-wrap gap-2 ">
-          //       Hired Unclaimed Earnings:{' '}
-          //       <Button
-          //         color="dark"
-          //         size={'sm'}
-          //         onClick={() => signAndSendTransactionRequest()}
-          //       >
-          //         {worker.rewards_unclaimed} xnt
-          //       </Button>
-          //     </div>
-          //   </div>
-          //   <div className="h-5 border-b-4 border-black text-center text-2xl"></div>
-          // </div>
         ))}
     </div>
   );

@@ -41,7 +41,7 @@ const Main = (props: IMainProps) => {
                     Sign out
                   </button>
                 ) : (
-                  <button type="button" onClick={() => router.push('/login')}>
+                  <button type="button" onClick={() => router.push('/')}>
                     Sign in
                   </button>
                 )}
@@ -67,7 +67,7 @@ const Main = (props: IMainProps) => {
         </header>
 
         <main className="content py-5 text-xl">{props.children}</main>
-        <footer className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 md:flex md:items-center md:justify-between md:p-6">
+        {/* <footer className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 md:flex md:items-center md:justify-between md:p-6">
           <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
             © 2023{' '}
             <a href="#" className="hover:underline">
@@ -97,7 +97,7 @@ const Main = (props: IMainProps) => {
               </a>
             </li>
           </ul>
-        </footer>
+        </footer> */}
       </div>
     </div>
   );

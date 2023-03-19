@@ -32,7 +32,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       headers,
     });
 
-    // console.log(`Response - ${JSON.stringify(response.data)}`);
     return res.status(response.status).json(response.data);
   } catch (error) {
     res.setHeader('Allow', ['GET', 'POST']);

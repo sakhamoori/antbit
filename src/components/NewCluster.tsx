@@ -18,7 +18,11 @@ type AvailableNodes = {
   worker_ip: string;
 };
 
-const NewCluster = () => {
+type NewClusterProps = {
+  handleClose: any
+}
+
+const NewCluster = ({ handleClose }: NewClusterProps) => {
   const [checkedCPU, setChekcedCPU] = useState<string[]>();
   const [clusterOffering, setClusterOffering] = useState<Offerings | undefined>(
     undefined
@@ -38,6 +42,7 @@ const NewCluster = () => {
         credits_paid: 100,
       },
     });
+    handleClose();
   };
 
   useEffect(() => {
@@ -57,12 +62,12 @@ const NewCluster = () => {
 
   return (
     <div key="new-cluster" className="border-2">
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nodes availble</h5>
-      {!clusterOffering && <div>No Clusters available</div>}
+      <h5 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Workers available</h5>
+      {!clusterOffering && <div>All our nodes are currently hired by other engineers please try again later</div>}
       {clusterOffering && clusterOffering.gpu_offer.length > 0 && (
         <>
           {clusterOffering.gpu_offer.map((gpu: AvailableNodes) => (
-            <div className="mb-4 flex">
+            <div className="mb-4 flex justify-center text-center">
               <div className="w-1/2">
                 <Label htmlFor="txt_count">CPU Count: {gpu.cpu_count}</Label>
               </div>
@@ -84,27 +89,21 @@ const NewCluster = () => {
       <div>
         {clusterOffering && clusterOffering.cpu_offer.length > 0 && (
           <>
-            <h3 className="text-center text-lg">CPU Available</h3>
-            <div className="mb-3 flex">
-              <div className="w-1/3">
-                <Label htmlFor="txt_count"><b>Available Count</b></Label>
+            <h3 className="text-center text-sm underline">CPU Available</h3>
+            <div className="mb-3 flex justify-center text-center">
+              <div className="w-1/2">
+                <Label htmlFor="txt_count"><b>CPU Count</b></Label>
               </div>
-              <div className="w-1/3">
-                <Label htmlFor="txt_count"><b>Worker IP's</b></Label>
-              </div>
-              <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:grow">
+              <div className="flex w-1/2 flex-row justify-center space-x-1 md:flex md:grow">
                 <Label htmlFor="txt_count"><b>Checked</b></Label>
               </div>
             </div>
             {clusterOffering.cpu_offer.map((cpu: AvailableNodes) => (
               <div className="mb-3 flex">
-                <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:grow">
+                <div className="flex w-1/2 flex-row justify-center space-x-1 md:flex md:grow">
                   <Label htmlFor="txt_count">{cpu.cpu_count}</Label>
                 </div>
-                <div className="w-1/3">
-                  <Label>{cpu.worker_ip}</Label>
-                </div>
-                <div className="flex w-1/3 flex-row justify-center space-x-1 md:flex md:grow">
+                <div className="flex w-1/2 flex-row justify-center space-x-1 md:flex md:grow">
                   <Checkbox className="border-black bg-white text-black focus:ring-black"
                     value={cpu.worker_ip}
                     onChange={(e) => handleCPUOnChange(e)}
@@ -117,8 +116,8 @@ const NewCluster = () => {
                 CPU Offer: Price per hour - ${' '}
                 {clusterOffering?.cpu_offer_price_per_hour}
               </Label>
-              <Button onClick={() => createCluster(checkedCPU && checkedCPU.length > 0 ? checkedCPU: [] )} color="dark">
-                Submit - CPU
+              <Button onClick={() => createCluster(checkedCPU && checkedCPU.length > 0 ? checkedCPU: [] )} color="dark" style={{width: "120px"}}>
+                Deploy Cluster
               </Button>
             </div>
           </>

@@ -21,14 +21,14 @@ const DashboardMain = ({ session }: DashboardMainProps) => {
   return (
     <div>
       <Tabs.Group aria-label="Default tabs" style="default">
-        <Tabs.Item active={true} title="Nodes">
+        <Tabs.Item active={true} title="GPU/CPU Mining Nodes[for miners ]">
           {publicKey === '' ? (
             <ConnectToPhantom session={session} onConnect={onConnect} />
           ) : (
             <Miners />
           )}
         </Tabs.Item>
-        <Tabs.Item title="Eng Clusters">
+        <Tabs.Item title="Clusters[ML Engineers]">
           <Clusters />
         </Tabs.Item>
       </Tabs.Group>
