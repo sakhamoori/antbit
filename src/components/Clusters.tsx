@@ -21,7 +21,7 @@ type Cluster = {
   credits_paid: number;
   workers_ips: string[];
   head_ip: string;
-  created_at: Date;
+  created_at: any;
 };
 
 const Clusters = () => {
@@ -44,10 +44,9 @@ const Clusters = () => {
       const response = await Axios.get(`/api/allclusters`);
       const result = JSON.parse(response.data.result);
       result.sort(
-        (a: Cluster, b: Cluster) =>
-          new Date(b.created_at) - new Date(a.created_at)
+        (a: any, b: any) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
-
       setClusterObj(result);
     } catch (error) {
       console.log(`Error fetching all clusters`, JSON.stringify(error));
