@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-key */
@@ -9,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 
 import Modal from './Modal';
 import NewCluster from './NewCluster';
+// import Payment from './Payment';
 
 type Cluster = {
   id: string;
@@ -19,6 +21,7 @@ type Cluster = {
   credits_paid: number;
   workers_ips: string[];
   head_ip: string;
+  created_at: any;
 };
 
 const Clusters = () => {
@@ -27,6 +30,7 @@ const Clusters = () => {
   );
 
   const [deployCluster, setDeployCluster] = useState(false);
+  // const [showPayment, setShowPayment] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,22 +39,32 @@ const Clusters = () => {
     fetchData();
   }, []);
 
-  const fetchAllClusters = () => {
-    Axios.get(`/api/allclusters`).then(
-      (response: { data: { result: string } }) => {
-        setClusterObj(JSON.parse(response.data.result));
-      }
-    );
+  const fetchAllClusters = async () => {
+    try {
+      const response = await Axios.get(`/api/allclusters`);
+      const result = JSON.parse(response.data.result);
+      result.sort(
+        (a: any, b: any) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      setClusterObj(result);
+    } catch (error) {
+      console.log(`Error fetching all clusters`, JSON.stringify(error));
+    }
   };
 
-  const destroyCluster = (id: string) => {
-    Axios.get(`/api/destroycluster/?clusterId=${id}`).then(async () => {
+  const destroyCluster = async (id: string) => {
+    try {
+      await Axios.get(`/api/destroycluster/?clusterId=${id}`);
       await fetchAllClusters();
-    });
+    } catch (error) {
+      console.log(`Error Destroying Cluster`, JSON.stringify(error));
+    }
   };
 
-  const showHideDeployCluster = () => {
+  const showHideDeployCluster = async () => {
     setDeployCluster(!deployCluster);
+    await fetchAllClusters();
   };
 
   const renderState = (status: string) => {
@@ -125,6 +139,12 @@ const Clusters = () => {
             SEE DOCUMENTATION
           </Button>
         </div>
+        {/* <div>
+          <Button>Buy Credits</Button>
+          <Modal show={showPayment} handleClose={showHidePayment}>
+            <Payment />
+          </Modal>
+        </div> */}
       </div>
       <div>
         <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -137,18 +157,27 @@ const Clusters = () => {
                 className="container my-10 items-center md:mx-auto"
                 style={{ maxWidth: '600px' }}
               >
-                <div className="mb-3 flex">
-                  <span className="flex">
-                    <div>{renderState(cluster?.status)}</div>
-                    <div className="ml-2">
-                      Cluster Address: {cluster?.head_ip}
-                    </div>
-                  </span>
+                <div className="grid grid-cols-2">
+                  <div className="mb-3 flex">
+                    <span className="flex">
+                      <div className="pt-0.5">
+                        {renderState(cluster?.status)}
+                      </div>
+                      <div className="ml-2">Cluster Header Address</div>
+                    </span>
+                  </div>
+                  <div className="text-right">{cluster?.head_ip}</div>
                 </div>
                 <div className="space-y-2 divide-y divide-dotted divide-zinc-600 leading-10">
                   <div className="grid grid-cols-2">
+                    <div>Workers</div>
+                    <div className="text-right">
+                      {cluster.workers_ips.length}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2">
                     <div className="flex">
-                      Age in Hours
+                      Cluster Age
                       <svg
                         width="20px"
                         height="20px"
@@ -158,11 +187,11 @@ const Clusters = () => {
                         stroke="#000000#b2aeae"
                         transform="rotate(180)"
                       >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                         <g
                           id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                         <g id="SVGRepo_iconCarrier">
                           <path
@@ -174,19 +203,21 @@ const Clusters = () => {
                             fill="#b2aeae"
                           />{' '}
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z"
                             fill="#b2aeae"
                           />{' '}
                         </g>
                       </svg>
                     </div>
-                    <div className="text-right">{cluster.age_in_hours} hrs</div>
+                    <div className="text-right">
+                      {cluster.age_in_hours}/hour
+                    </div>
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="flex">
-                      Max Age in hours
+                      Cluster Paid Age
                       <svg
                         width="20px"
                         height="20px"
@@ -196,11 +227,11 @@ const Clusters = () => {
                         stroke="#000000#b2aeae"
                         transform="rotate(180)"
                       >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                         <g
                           id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                         <g id="SVGRepo_iconCarrier">
                           {' '}
@@ -213,8 +244,8 @@ const Clusters = () => {
                             fill="#b2aeae"
                           />{' '}
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z"
                             fill="#b2aeae"
                           />{' '}
@@ -222,12 +253,8 @@ const Clusters = () => {
                       </svg>
                     </div>
                     <div className="text-right">
-                      {cluster.max_age_in_hours} hrs
+                      {cluster.max_age_in_hours}/hours
                     </div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div>Worker IP's</div>
-                    <div className="text-right">{cluster.workers_ips}</div>
                   </div>
                   <div className="grid grid-cols-2">
                     <div>Total Hours</div>
@@ -237,7 +264,7 @@ const Clusters = () => {
                   </div>
                   <div className="space-y-3">
                     <div className="grid grid-cols-2">
-                      <div>Paid</div>
+                      <div>Credit Paid</div>
                       <div className="text-right">
                         {cluster.credits_paid} xnt
                       </div>

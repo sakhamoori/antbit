@@ -37,7 +37,13 @@ const Main = (props: IMainProps) => {
               </a>
               <div className="flex items-center md:order-2">
                 {props.session ? (
-                  <button type="button" onClick={() => supabase.auth.signOut()}>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await supabase.auth.signOut();
+                      router.push('/');
+                    }}
+                  >
                     Sign out
                   </button>
                 ) : (

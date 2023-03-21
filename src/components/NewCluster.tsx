@@ -35,14 +35,16 @@ const NewCluster = ({ handleClose }: NewClusterProps) => {
   };
 
   const createCluster = async (ips: string[]) => {
-    await Axios.post('/api/createcluster', {
-      data: {
-        hired_workers_ips: ips,
-        max_age_in_hours: 10,
-        credits_paid: 100,
-      },
-    });
-    handleClose();
+    if (ips.length > 0) {
+      await Axios.post('/api/createcluster', {
+        data: {
+          hired_workers_ips: ips,
+          max_age_in_hours: 10,
+          credits_paid: 100,
+        },
+      });
+      handleClose();
+    } 
   };
 
   useEffect(() => {
@@ -89,7 +91,7 @@ const NewCluster = ({ handleClose }: NewClusterProps) => {
       <div>
         {clusterOffering && clusterOffering.cpu_offer.length > 0 && (
           <>
-            <h3 className="text-center text-sm underline">CPU Available</h3>
+            <h3 className="text-center text-sm underline">CPU's Available</h3>
             <div className="mb-3 flex justify-center text-center">
               <div className="w-1/2">
                 <Label htmlFor="txt_count"><b>CPU Count</b></Label>
