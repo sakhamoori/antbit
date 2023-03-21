@@ -1,7 +1,10 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import router from 'next/router';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 
 type IMainProps = {
   meta: ReactNode;
@@ -9,8 +12,16 @@ type IMainProps = {
   session?: any;
 };
 
+const WalletMultiButtonDynamic = dynamic(
+  async () =>
+    (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+  { ssr: false }
+);
+
 const Main = (props: IMainProps) => {
   const supabase = useSupabaseClient();
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
   return (
     <div className="w-full px-2 text-gray-700 antialiased">
       {props.meta}
@@ -66,7 +77,45 @@ const Main = (props: IMainProps) => {
                       Home
                     </Link>
                   </li>
+                  <li className="navbar-end">
+                    <WalletMultiButtonDynamic />
+                  </li>
                 </ul>
+                <label
+                  htmlFor="my-drawer"
+                  className="btn-gh mr-6 items-center justify-between md:hidden"
+                  onClick={() => setIsNavOpen(!isNavOpen)}
+                >
+                  <div className="HAMBURGER-ICON ml-5 space-y-2.5">
+                    <div
+                      className={`h-0.5 w-8 bg-purple-600 ${
+                        isNavOpen ? 'hidden' : ''
+                      }`}
+                    />
+                    <div
+                      className={`h-0.5 w-8 bg-purple-600 ${
+                        isNavOpen ? 'hidden' : ''
+                      }`}
+                    />
+                    <div
+                      className={`h-0.5 w-8 bg-purple-600 ${
+                        isNavOpen ? 'hidden' : ''
+                      }`}
+                    />
+                  </div>
+                  <div
+                    className={`absolute block h-0.5 w-8 animate-pulse bg-purple-600 ${
+                      isNavOpen ? '' : 'hidden'
+                    }`}
+                    style={{ transform: 'rotate(45deg)' }}
+                  ></div>
+                  <div
+                    className={`absolute block h-0.5 w-8 animate-pulse bg-purple-600 ${
+                      isNavOpen ? '' : 'hidden'
+                    }`}
+                    style={{ transform: 'rotate(135deg)' }}
+                  ></div>
+                </label>
               </div>
             </div>
           </nav>

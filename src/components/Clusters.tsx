@@ -2,15 +2,15 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-key */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import Axios from 'axios';
 import { Button } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 
 import Modal from './Modal';
 import NewCluster from './NewCluster';
-// import Payment from './Payment';
+import { SendTransaction } from './SendTransaction';
 
 type Cluster = {
   id: string;
@@ -25,6 +25,8 @@ type Cluster = {
 };
 
 const Clusters = () => {
+  const wallet = useWallet();
+  const { connection } = useConnection();
   const [clusterObj, setClusterObj] = useState<Array<Cluster> | undefined>(
     undefined
   );
@@ -33,11 +35,15 @@ const Clusters = () => {
   // const [showPayment, setShowPayment] = useState(false);
 
   useEffect(() => {
+    if (wallet.publicKey) {
+      console.log(wallet.publicKey.toBase58());
+    }
+
     const fetchData = async () => {
       fetchAllClusters();
     };
     fetchData();
-  }, []);
+  }, [wallet.publicKey, connection]);
 
   const fetchAllClusters = async () => {
     try {
@@ -116,28 +122,30 @@ const Clusters = () => {
         <b>Limitless computing power on-demand</b>
       </h2>
       <div className="flex items-center justify-center">
-        <div className="mr-5">
+        <div>
           <Button
-            color="dark"
+            className="mr-2 mb-2 rounded-lg bg-gray-800 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             onClick={() => {
               setDeployCluster(!deployCluster);
             }}
-            style={{ width: '150px' }}
           >
             DEPLOY A CLUSTER
           </Button>
           <Modal show={deployCluster} handleClose={showHideDeployCluster}>
-            <NewCluster handleClose={showHideDeployCluster} />
+            <NewCluster key="newCluster" handleClose={showHideDeployCluster} />
           </Modal>
         </div>
         <div>
           <Button
-            color="gray"
-            style={{ width: '200px' }}
+            className="mr-2 mb-2 rounded-lg bg-yellow-400 text-sm font-medium text-white hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900"
             href="https://docs.antbit.io/p/NYfvBrNBdz2Qk2/Deploy-a-cluster"
+            target="_blank"
           >
-            SEE DOCUMENTATION
+            SEE DOCS
           </Button>
+        </div>
+        <div>
+          <SendTransaction />
         </div>
         {/* <div>
           <Button>Buy Credits</Button>
@@ -155,7 +163,7 @@ const Clusters = () => {
             clusterObj.map((cluster) => (
               <div
                 className="container my-10 items-center md:mx-auto"
-                style={{ maxWidth: '600px' }}
+                style={{ maxWidth: '700px' }}
               >
                 <div className="grid grid-cols-2">
                   <div className="mb-3 flex">
@@ -163,7 +171,7 @@ const Clusters = () => {
                       <div className="pt-0.5">
                         {renderState(cluster?.status)}
                       </div>
-                      <div className="ml-2">Cluster Header Address</div>
+                      <div className="ml-2">Cluster Head Address</div>
                     </span>
                   </div>
                   <div className="text-right">{cluster?.head_ip}</div>
@@ -212,7 +220,7 @@ const Clusters = () => {
                       </svg>
                     </div>
                     <div className="text-right">
-                      {cluster.age_in_hours}/hour
+                      {cluster.age_in_hours}/hours
                     </div>
                   </div>
                   <div className="grid grid-cols-2">
@@ -256,12 +264,6 @@ const Clusters = () => {
                       {cluster.max_age_in_hours}/hours
                     </div>
                   </div>
-                  <div className="grid grid-cols-2">
-                    <div>Total Hours</div>
-                    <div className="text-right">
-                      {cluster.age_in_hours + cluster.max_age_in_hours} hrs
-                    </div>
-                  </div>
                   <div className="space-y-3">
                     <div className="grid grid-cols-2">
                       <div>Credit Paid</div>
@@ -275,9 +277,8 @@ const Clusters = () => {
                       <Button
                         onClick={() => destroyCluster(cluster.cluster_id)}
                         disabled={cluster.status !== 'online'}
-                        color={'dark'}
-                        style={{ width: '100px' }}
-                        className="flex justify-end"
+                        style={{ width: '100px', height: '30px' }}
+                        className="ocus:outline-none mr-2 mb-2 flex rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                       >
                         Destroy
                       </Button>
