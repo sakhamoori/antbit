@@ -33,18 +33,16 @@ const Miners = () => {
     });
   }, []);
 
+  const claimRewards = async (ip: string) => {
+    await Axios.post('/api/createcluster', {
+      data: {
+        worker_ip: ip,
+      },
+    });
+  };
+
   const renderState = (status: string) => {
-    if (status === 'idle') {
-      return (
-        <img
-          src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/initiating.png?t=2023-03-18T00%3A44%3A48.006Z"
-          width="30px"
-          height="30px"
-          title={status}
-        />
-      );
-    }
-    if (status === 'hired') {
+    if (status !== 'offline' && status !== 'disabled') {
       return (
         <img
           src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/online.png?t=2023-03-18T00%3A43%3A17.461Z"
@@ -54,30 +52,18 @@ const Miners = () => {
         />
       );
     }
-    if (status === 'offline') {
-      return (
-        <img
-          src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/destroyed.png?t=2023-03-18T00%3A42%3A56.337Z"
-          width="25px"
-          height="25px"
-          title={status}
-        />
-      );
-    }
     return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-      >
-        <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.25 8.891l-1.421-1.409-6.105 6.218-3.078-2.937-1.396 1.436 4.5 4.319 7.5-7.627z" />
-      </svg>
+      <img
+        src="https://gauelondvgmzvqfdmhco.supabase.co/storage/v1/object/public/cloud/online.png?t=2023-03-18T00%3A43%3A17.461Z"
+        width="25px"
+        height="25px"
+        title={status}
+      />
     );
   };
 
   return (
-    <div>
+    <div key="miners">
       <h5 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         My Mining Nodes
       </h5>
@@ -89,7 +75,7 @@ const Miners = () => {
           >
             <div className="mb-3 flex">
               {renderState(worker.status)}
-              <span className="ml-2">Node: {worker?.worker_ip}</span>
+              <span className="ml-2">Worker: {worker?.worker_ip}</span>
             </div>
             <div className="space-y-2 divide-y divide-dotted divide-zinc-600 leading-10">
               <div className="grid grid-cols-2">
@@ -121,8 +107,8 @@ const Miners = () => {
                         fill="#b2aeae"
                       />{' '}
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z"
                         fill="#b2aeae"
                       />{' '}
@@ -143,11 +129,11 @@ const Miners = () => {
                     stroke="#000000#b2aeae"
                     transform="rotate(180)"
                   >
-                    <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                     <g
                       id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <g id="SVGRepo_iconCarrier">
                       {' '}
@@ -160,8 +146,8 @@ const Miners = () => {
                         fill="#b2aeae"
                       />{' '}
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z"
                         fill="#b2aeae"
                       />{' '}
@@ -180,15 +166,24 @@ const Miners = () => {
                 <div>Count</div>
                 <div className="text-right">{worker.cpu_count}</div>
               </div>
+              <div className="grid grid-cols-2">
+                <div>Status</div>
+                <div className="text-right">{worker.status}</div>
+              </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2">
                   <div>Claimed Earnings</div>
                   <div className="text-right">{worker.rewards_claimed} xnt</div>
                 </div>
                 <div className="grid grid-cols-2">
-                  <div>Hired Unclaimed Earnings:</div>
+                  <div>Unclaimed Earnings:</div>
                   <div className="flex justify-end">
-                    <Button color="dark" size={'md'} style={{ width: '150px' }}>
+                    <Button
+                      color="dark"
+                      size={'md'}
+                      style={{ width: '150px' }}
+                      onClick={() => claimRewards(worker?.worker_ip)}
+                    >
                       Claim {worker.rewards_unclaimed} xnt ~4$
                     </Button>
                   </div>

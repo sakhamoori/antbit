@@ -35,11 +35,22 @@ const ConnectToPhantom = ({ onConnect, session }: ConnectToPhantomProps) => {
       .eq('owner_email', email)
       .single();
 
+    // New Wallet
     if (data === null) {
       const { error } = await supabase
         .from('users_info')
         .insert({ owner_email: email, spl_wallet: key })
         .single();
+      if (error) {
+        throw error;
+      }
+    } else {
+      // Update wallet
+      const { error } = await supabase
+        .from('users_info')
+        .update({ spl_wallet: key })
+        .eq('owner_email', email);
+
       if (error) {
         throw error;
       }
@@ -70,7 +81,7 @@ const ConnectToPhantom = ({ onConnect, session }: ConnectToPhantomProps) => {
       try {
         const response = await solana.connect();
         setWalletKey(response.publicKey.toString());
-        onConnect();
+        onConnect(response.publicKey.toString());
         response.publicKey.toString() &&
           updateWalletAddress(response.publicKey.toString());
       } catch (err) {
@@ -110,9 +121,11 @@ const ConnectToPhantom = ({ onConnect, session }: ConnectToPhantomProps) => {
       )}
 
       {provider && walletKey && (
-        <Button pill={true} color="dark" onClick={disconnectWallet}>
-          Disconnect
-        </Button>
+        <>
+          <Button pill={true} color="dark" onClick={disconnectWallet}>
+            Disconnect
+          </Button>
+        </>
       )}
 
       {!provider && (

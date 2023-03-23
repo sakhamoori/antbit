@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable prettier/prettier */
 import { createServerSupabaseClient, User } from '@supabase/auth-helpers-nextjs';
-import { Session } from 'inspector';
 import { GetServerSidePropsContext } from 'next';
 
 import DashboardMain from '@/components/DashboardMain';
@@ -35,10 +34,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
 const Dashboard = ({
   user,
-  initialSession,
 }: {
   user: User;
-  initialSession: Session;
 }) => {
   
   return (
@@ -50,7 +47,7 @@ const Dashboard = ({
         />
       } session={user}
     >
-      <DashboardMain session={initialSession} onConnected={undefined} />
+      <DashboardMain />
     </Main>
   );
 };
