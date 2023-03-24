@@ -67,19 +67,14 @@ export const SendTransaction: FC = () => {
   }, [publicKey, connection, sendTransaction]);
 
   return (
-    <div className="flex flex-row justify-center">
-      <div className="group relative items-center">
-        <Button
-          className="mb-2 rounded-lg bg-purple-700 text-sm font-medium text-white hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-          onClick={onClick}
-          disabled={!publicKey}
-        >
-          <div className="hidden group-disabled:block ">
-            Wallet not connected
-          </div>
-          <span className="block group-disabled:hidden">Send Transaction</span>
-        </Button>
-      </div>
-    </div>
+    <Button
+      className="mb-2 rounded-lg bg-purple-700 text-sm font-medium text-white hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+      style={{ width: '150px', height: '30px' }}
+      onClick={onClick}
+      disabled={!publicKey}
+    >
+      <div className="hidden group-disabled:block ">Wallet not connected</div>
+      <span className="block group-disabled:hidden">Send Transaction</span>
+    </Button>
   );
 };

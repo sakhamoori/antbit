@@ -1,11 +1,19 @@
 /* eslint-disable consistent-return */
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { API_Password, API_UserName, BASE_URL } from '@/utils/constant';
 
-const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    // Create authenticated Supabase Client
+    const supabase = createServerSupabaseClient({ req, res });
+    // Check if we have a session
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
     const token = Buffer.from(
       `${API_UserName}:${API_Password}`,
       'utf8'
@@ -15,13 +23,14 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
       accept: 'application/json',
     };
 
-    const response = await Axios.post(
-      `${BASE_URL}/get-cluster-offers`,
-      undefined,
-      {
-        headers,
-      }
-    );
+    const input = {
+      owner_email: session?.user.email,
+      by_email: true,
+    };
+
+    const response = await Axios.post(`${BASE_URL}/get-cluster-offers`, input, {
+      headers,
+    });
 
     return res.status(response.status).json(response.data);
   } catch (error) {
