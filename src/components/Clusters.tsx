@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react';
 
 import Modal from './Modal';
 import NewCluster from './NewCluster';
-import { SendTransaction } from './SendTransaction';
 
 type Cluster = {
   id: string;

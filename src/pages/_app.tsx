@@ -24,6 +24,7 @@ function MyApp({
       <ContextProvider>
         <Component {...pageProps} />
       </ContextProvider>
+      
     </SessionContextProvider>
   )
 }
