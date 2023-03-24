@@ -144,15 +144,6 @@ const Clusters = () => {
             SEE DOCS
           </Button>
         </div>
-        <div>
-          <SendTransaction />
-        </div>
-        {/* <div>
-          <Button>Buy Credits</Button>
-          <Modal show={showPayment} handleClose={showHidePayment}>
-            <Payment />
-          </Modal>
-        </div> */}
       </div>
       <div>
         <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -271,14 +262,12 @@ const Clusters = () => {
                         {cluster.credits_paid} xnt
                       </div>
                     </div>
-                    <div
-                      className={cluster.status !== 'online' ? 'w-3/12' : ''}
-                    >
+                    <div className="flex justify-end">
                       <Button
                         onClick={() => destroyCluster(cluster.cluster_id)}
                         disabled={cluster.status !== 'online'}
                         style={{ width: '100px', height: '30px' }}
-                        className="ocus:outline-none mr-2 mb-2 flex rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                        className="mr-2 mb-2 flex rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                       >
                         Destroy
                       </Button>
