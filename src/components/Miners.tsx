@@ -27,18 +27,23 @@ const Miners = () => {
     Array<WorkerObj> | undefined
   >(undefined);
 
-  useEffect(() => {
-    Axios.get(`/api/allworkers`).then((response) => {
+  const fetchWorkers = async () => {
+    await Axios.get(`/api/allworkers`).then((response) => {
       setWorkersHealth(JSON.parse(response.data.result));
     });
+  };
+
+  useEffect(() => {
+    fetchWorkers();
   }, []);
 
   const claimRewards = async (ip: string) => {
-    await Axios.post('/api/createcluster', {
+    await Axios.post('/api/claimrewards', {
       data: {
         worker_ip: ip,
       },
     });
+    await fetchWorkers();
   };
 
   const renderState = (status: string) => {
