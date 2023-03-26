@@ -71,7 +71,7 @@ const NewCluster = ({ handleClose }: NewClusterProps) => {
       },
     });
 
-    const lamportAmount = parseFloat('.01') * LAMPORTS_PER_SOL
+    const lamportAmount = parseFloat('.1') * LAMPORTS_PER_SOL
 
       const tx = new Transaction().add(
         SystemProgram.transfer({

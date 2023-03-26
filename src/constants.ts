@@ -15,4 +15,4 @@ export const CHAIN_ID_GOERLI: number = 5; // Goerli
 export const ACCOUNT2: string = 'xxxxx';
 
 export const ACCOUNT2_SOL: string = 'xxxxx';
-export const LAMPORTS_PER_SOL: number = 100;
+export const LAMPORTS_PER_SOL: number = 1000000000;
