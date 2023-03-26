@@ -9,6 +9,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { data } = req.body;
 
+    console.log('Data:', JSON.stringify(data));
+
     const token = Buffer.from(
       `${API_UserName}:${API_Password}`,
       'utf8'
@@ -18,19 +20,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       accept: 'application/json',
     };
 
-    const input = {
-      ...data,
-    };
+    console.log(`Header - ${JSON.stringify(headers)}`);
+    console.log(`${BASE_URL}/claim-worker-rewards`);
+    console.log(`${JSON.stringify(data)}`);
 
-    await Axios.post(`${BASE_URL}/claim-worker-rewards`, input, {
-      headers,
-    });
-
+    await Axios.post(
+      `${BASE_URL}/claim-worker-rewards`,
+      { ...data },
+      {
+        headers,
+      }
+    );
     return res.status(200).end();
   } catch (error) {
     console.log(`Error - ${JSON.stringify(error)}`);
     res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end();
+    res.status(200).end();
   }
 };
 
