@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable prettier/prettier */
-import { createServerSupabaseClient, User } from '@supabase/auth-helpers-nextjs';
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { GetServerSidePropsContext } from 'next';
 
 import DashboardMain from '@/components/DashboardMain';
-import { Meta } from '@/layouts/Meta';
-import { Main } from '@/templates/Main';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   // Create authenticated Supabase Client
@@ -32,23 +30,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 };
 
 
-const Dashboard = ({
-  user,
-}: {
-  user: User;
-}) => {
-  
+const Dashboard = () => {
   return (
-    <Main
-      meta={
-        <Meta
-          title="Antbit"
-          description="Antbit - Dashboard"
-        />
-      } session={user}
-    >
-      <DashboardMain />
-    </Main>
+    <DashboardMain />
   );
 };
 

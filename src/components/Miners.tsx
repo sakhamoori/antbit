@@ -73,6 +73,7 @@ const Miners = () => {
         My Mining Nodes
       </h5>
       {workersHealth &&
+        workersHealth.length > 0 &&
         workersHealth.map((worker) => (
           <div
             className="container my-10 items-center md:mx-auto"
