@@ -190,7 +190,7 @@ const Miners = () => {
                       style={{ width: '150px' }}
                       onClick={() => claimRewards(worker?.worker_ip)}
                     >
-                      Claim {worker.rewards_unclaimed} xnt ~4$
+                      Claim {worker.rewards_unclaimed}xnt
                     </Button>
                   </div>
                 </div>
