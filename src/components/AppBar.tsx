@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-throw-literal */
+/* eslint-disable consistent-return */
 /* eslint-disable tailwindcss/no-custom-classname */
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -15,6 +18,41 @@ const AppBar = () => {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const wallet = useWallet();
+  const { connection } = useConnection();
+
+  const updateWalletAddress = async () => {
+    if (!session) return;
+
+    const {
+      user: { email },
+    } = session;
+
+    const { data } = await supabase
+      .from('users_info')
+      .select('owner_email, spl_wallet')
+      .eq('owner_email', email)
+      .single();
+
+    if (data) {
+      console.log(`Data - ${JSON.stringify(data)}`);
+      // Update wallet
+      const { error } = await supabase
+        .from('users_info')
+        .update({ spl_wallet: wallet.publicKey })
+        .eq('owner_email', email);
+
+      if (error) {
+        throw error;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (wallet.publicKey) {
+      updateWalletAddress();
+    }
+  }, [wallet.publicKey, connection]);
 
   return (
     <div className="w-full px-2 text-gray-700 antialiased">
